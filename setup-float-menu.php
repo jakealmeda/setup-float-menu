@@ -13,6 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
+
+// include file
+include_once( 'lib/sfm-functions.php' );
+include_once( 'lib/sfm-native-taxonomy.php' );
+include_once( 'lib/sfm-custom-taxonomy.php' );
+
+
 $sf_menu = new SetupFloatMenu();
 class SetupFloatMenu {
 
@@ -23,49 +30,49 @@ class SetupFloatMenu {
     public function setup_sfmenu_get_entries() {
 
     	global $post;
-    	$category_id = '';
     	$output = '';
+    	$fm_fallback = get_post_meta( $post->ID, 'fm_use_fallback', TRUE );
 
-    	$terms = get_the_terms( $post->ID, 'category' );
-    	if( is_array( $terms ) ) {
+		// CUSTOM FIELD - CATEGORY
+		$fm_use_key_cat = get_post_meta( $post->ID, 'fm_use_category', TRUE );
+		if( !empty( $fm_use_key_cat ) && count( $fm_use_key_cat ) >= 1 ) {
 
-    		foreach( $terms as $term ) {
+			$a = new SetupFloatMenu_CustomCategory();
+			$output = $a->get_custom_category( $post->ID, 'category', $fm_use_key_cat );
 
-    			//echo 'Name: '.$term->name.'<br />';
-    			//echo 'Slug: '.$term->slug.'<br />';
-    			//echo 'Cat ID: '.$term->term_taxonomy_id.'<hr />';
-    			$category_id .= $term->term_taxonomy_id.', ';
+		}
 
-    		}
+		// CUSTOM FIELD - TAG
+		$fm_use_key_tag = get_post_meta( $post->ID, 'fm_use_tag', TRUE );
+		if( !empty( $fm_use_key_tag ) && count( $fm_use_key_tag ) >= 1 ) {
 
-			$args = array(
-				'post_type' => 'post',
-				'post_status' => 'publish',
-				'cat' => $category_id, //you can pass comma-separated ids here
-				'posts_per_page' => -1,
-				'post__not_in' => array( $post->ID ),
-			);
-			$loop = new WP_Query( $args );
+			$a = new SetupFloatMenu_CustomCategory();
+			$output = $a->get_custom_category( $post->ID, 'tag', $fm_use_key_tag );
 
-		    if( $loop->have_posts() ):
-		        
-		        // get all post IDs
-		        while( $loop->have_posts() ): $loop->the_post();
-					
-					$pid = get_the_ID();
+		}
 
-					$output .= '<div><a href="'.get_the_permalink( $pid ).'">'.get_the_title( $pid ).'</a></div>';
+    	// NATIVE WP CATEGORY | FALLBACK
+    	if( empty( $output ) && $fm_fallback == 'category' ) {
 
-				endwhile;
+			$a = new SetupFloatMenu_NativeTaxonomy();
+			$output = $a->get_native_taxonomy( $post->ID, 'category' );
 
-			endif;
+		}
+
+		// NATIVE WP TAG | FALLBACK
+    	if( empty( $output ) && $fm_fallback == 'tag' ) {
     		
-    	}
+			$a = new SetupFloatMenu_NativeTaxonomy();
+			$output = $a->get_native_taxonomy( $post->ID, 'tag' );
 
+		}
+
+		// HANDLE OUPTUT
     	if( !empty( $output ) ) {
-    		echo '<div class="mini-menu">'.$output.'</div>';
+    		echo '<div class="mini-menu"><div class="text-base">RELATED STUFF</div>'.$output.'</div>';
     	}
 
+    	// RESET QUERY
     	$this->setup_sfmenu_reset_query();
 
     }
