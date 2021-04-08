@@ -31,42 +31,75 @@ class SetupFloatMenu {
 
     	global $post;
     	$output = '';
-    	$fm_fallback = get_post_meta( $post->ID, 'fm_use_fallback', TRUE );
+    	
+    	$fm_max_entries = get_post_meta( $post->ID, 'use_max_entries', TRUE );
 
 		// CUSTOM FIELD - CATEGORY
 		$fm_use_key_cat = get_post_meta( $post->ID, 'fm_use_category', TRUE );
-		if( !empty( $fm_use_key_cat ) && count( $fm_use_key_cat ) >= 1 ) {
-
-			$a = new SetupFloatMenu_CustomCategory();
-			$output = $a->get_custom_category( $post->ID, 'category', $fm_use_key_cat );
-
-		}
-
 		// CUSTOM FIELD - TAG
 		$fm_use_key_tag = get_post_meta( $post->ID, 'fm_use_tag', TRUE );
-		if( !empty( $fm_use_key_tag ) && count( $fm_use_key_tag ) >= 1 ) {
+		if( !empty( $fm_use_key_cat ) && !empty( $fm_use_key_tag )  ) {
+
+			// CUSTOM FIELD - BOTH CATEGORY & TAG
+			$both_tax = array(
+				'category'	=> $fm_use_key_cat,
+				'tag'		=> $fm_use_key_tag,
+			);
 
 			$a = new SetupFloatMenu_CustomCategory();
-			$output = $a->get_custom_category( $post->ID, 'tag', $fm_use_key_tag );
+			$output .= $a->get_custom_category( $post->ID, 'both', $both_tax, $fm_max_entries );
+
+		} else {
+
+			// CUSTOM FIELD - CATEGORY
+			if( !empty( $fm_use_key_cat ) && count( $fm_use_key_cat ) >= 1 ) {
+
+				$a = new SetupFloatMenu_CustomCategory();
+				$output .= $a->get_custom_category( $post->ID, 'category', $fm_use_key_cat, $fm_max_entries );
+
+			}
+
+			// CUSTOM FIELD - TAG
+			if( !empty( $fm_use_key_tag ) && count( $fm_use_key_tag ) >= 1 ) {
+
+				$a = new SetupFloatMenu_CustomCategory();
+				$output .= $a->get_custom_category( $post->ID, 'tag', $fm_use_key_tag, $fm_max_entries );
+
+			}
 
 		}
 
-    	// NATIVE WP CATEGORY | FALLBACK
-    	if( empty( $output ) && $fm_fallback == 'category' ) {
+		$fm_default = get_post_meta( $post->ID, 'fm_use_default', TRUE );
+		if( $fm_default == 'both' ) {
 
 			$a = new SetupFloatMenu_NativeTaxonomy();
-			$output = $a->get_native_taxonomy( $post->ID, 'category' );
+			$output = $a->get_native_taxonomy( $post->ID, 'both', $fm_max_entries );
+
+		} else {
+
+			// NATIVE WP CATEGORY | DEFAULT
+			if( empty( $output ) && $fm_default == 'category' ) {
+
+				$a = new SetupFloatMenu_NativeTaxonomy();
+				$output = $a->get_native_taxonomy( $post->ID, 'category', $fm_max_entries );
+
+			}
+
+			// NATIVE WP TAG | DEFAULT
+			if( empty( $output ) && $fm_default == 'tag' ) {
+				
+				$a = new SetupFloatMenu_NativeTaxonomy();
+				$output = $a->get_native_taxonomy( $post->ID, 'tag', $fm_max_entries );
+
+			}
 
 		}
 
-		// NATIVE WP TAG | FALLBACK
-    	if( empty( $output ) && $fm_fallback == 'tag' ) {
-    		
-			$a = new SetupFloatMenu_NativeTaxonomy();
-			$output = $a->get_native_taxonomy( $post->ID, 'tag' );
-
+		// NATIVE WP CATEGORY AND TAG | DEFAULT
+/*		if( empty( $output ) && in_array( $fm_default, array( 'category', 'tag', 'both' ) ) ) {
+			$output = $output_cat.$output_tag;
 		}
-
+*/
 		// HANDLE OUPTUT
     	if( !empty( $output ) ) {
     		echo '<div class="mini-menu"><div class="text-base">RELATED STUFF</div>'.$output.'</div>';

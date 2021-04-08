@@ -6,13 +6,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class SetupFloatMenu_CustomCategory {
 
-	public function get_custom_category( $post_id, $taxy, $get_from_these_taxo ) {
+	public function get_custom_category( $post_id, $taxy, $get_from_these_taxo, $fm_max_entries ) {
 
-		 // initialize variables
+		// initialize variables
 		$output = '';
 
 		$f = new SetupFloatMenuFunctions();
-		$output = $f->sfm_wp_query( $post_id, $taxy, $get_from_these_taxo, array( $post_id ) );
+		$output = $f->sfm_wp_query( $post_id, $taxy, $get_from_these_taxo, $fm_max_entries, array( $post_id ) );
 
 		// RESET QUERY
 		$x = new SetupFloatMenu();
