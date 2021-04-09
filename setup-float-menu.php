@@ -29,6 +29,10 @@ class SetupFloatMenu {
 	 */
     public function setup_sfmenu_get_entries() {
 
+    	// exit if not post or page entry
+    	if( ! is_single() )
+    		return TRUE;
+
     	global $post;
     	$output = '';
     	
