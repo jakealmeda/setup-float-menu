@@ -49,8 +49,8 @@
             },
             {
                 "key": "field_6068a4ea776a5",
-                "label": "<strong>Use Fallback<\/strong>",
-                "name": "fm_use_fallback",
+                "label": "<strong>Use Default<\/strong>",
+                "name": "fm_use_default",
                 "type": "button_group",
                 "instructions": "As an option, we can force WP_Query to get entries based on either all Categories or Tags, or display none. Note that both Use Category and Use Tag fields must be empty to trigger this option.",
                 "required": 0,
@@ -63,12 +63,34 @@
                 "choices": {
                     "category": "Category",
                     "tag": "Tag",
+                    "both": "Both",
                     "none": "None"
                 },
                 "allow_null": 0,
                 "default_value": "none",
                 "layout": "horizontal",
                 "return_format": "value"
+            },
+            {
+                "key": "field_606eacc39eda1",
+                "label": "<strong>Use Max Entries<\/strong>",
+                "name": "use_max_entries",
+                "type": "number",
+                "instructions": "Max number of entries to be displayed.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": 8,
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "min": "",
+                "max": "",
+                "step": ""
             }
         ],
         "location": [
