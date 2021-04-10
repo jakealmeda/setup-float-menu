@@ -64,16 +64,20 @@ class SetupFloatMenu_NativeTaxonomy {
 
 		$tax_id = array();
 
-		foreach( $terms as $term ) {
+		if( is_array( $terms ) ) :
 
-			//echo 'Name: '.$term->name.'<br />';
-			//echo 'Slug: '.$term->slug.'<br />';
-			//echo 'Cat ID: '.$term->term_taxonomy_id.'<hr />';
+			foreach( $terms as $term ) {
 
-			// set the term IDs separated by comma
-			$tax_id[] = $term->term_taxonomy_id;
+				//echo 'Name: '.$term->name.'<br />';
+				//echo 'Slug: '.$term->slug.'<br />';
+				//echo 'Cat ID: '.$term->term_taxonomy_id.'<hr />';
 
-		}
+				// set the term IDs separated by comma
+				$tax_id[] = $term->term_taxonomy_id;
+
+			}
+
+		endif;
 
 		return $tax_id;
 
