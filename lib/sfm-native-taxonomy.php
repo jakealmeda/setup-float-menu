@@ -7,26 +7,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 class SetupFloatMenu_NativeTaxonomy {
 
 	// NATIVE WP CATEGORY
-	public function get_native_taxonomy( $post_id, $taxy, $fm_max_entries ) {
+	public function get_native_taxonomy( $filter ) {
 
 		 // initialize variables
 		$output = '';
 		$tax_id = array();
 		
-		if( $taxy == 'both' ) {
+		if( $filter[ 'taxy' ] == 'both' ) {
 
-			$tax_id[ 'category' ] = $this->sfm_collate_tax_term_id( get_the_terms( $post_id, 'category' ) );
-			$tax_id[ 'tag' ] = $this->sfm_collate_tax_term_id( get_the_terms( $post_id, 'post_tag' ) );
+			$tax_id[ 'category' ] = $this->sfm_collate_tax_term_id( get_the_terms( $filter[ 'pid' ], 'category' ) );
+			$tax_id[ 'tag' ] = $this->sfm_collate_tax_term_id( get_the_terms( $filter[ 'pid' ], 'post_tag' ) );
 
 		} else {
 
-			if( $taxy == 'tag' ) {
+			if( $filter[ 'taxy' ] == 'tag' ) {
 
-				$terms = get_the_terms( $post_id, 'post_tag' );
+				$terms = get_the_terms( $filter[ 'pid' ], 'post_tag' );
 
 			} else {
 
-				$terms = get_the_terms( $post_id, 'category' );
+				$terms = get_the_terms( $filter[ 'pid' ], 'category' );
 
 			}
 
@@ -39,7 +39,7 @@ class SetupFloatMenu_NativeTaxonomy {
 
 			// PROCESS OUTPUT QUERY
 			$f = new SetupFloatMenuFunctions();
-			$output = $f->sfm_wp_query( $post_id, $taxy, $tax_id, $fm_max_entries, array( $post_id ) );
+			$output = $f->sfm_wp_query( $filter[ 'pid' ], $filter[ 'taxy' ], $tax_id, $filter[ 'max' ], array( $filter[ 'pid' ] ), $filter[ 'orderby' ], $filter[ 'order' ] );
 
 			// RESET QUERY
 			$x = new SetupFloatMenu();

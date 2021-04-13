@@ -6,12 +6,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class SetupFloatMenuFunctions {
 
-	public function sfm_wp_query( $post_id, $taxy, $tax_id, $fm_max_entries, $not_in ) {
+	public function sfm_wp_query( $post_id, $taxy, $tax_id, $fm_max_entries, $not_in, $orderby, $order ) {
 
 		$output = ''; // initialize variable
 
 		if( empty( $fm_max_entries ) || $fm_max_entries == 0 )
 			$fm_max_entries = 8;
+
+		// set default order by field
+		if( empty( $orderby ) ) {
+			$orderby = 'date';
+		} else {
+			$orderby = $orderby;
+		}
+
+		// set default order
+		if( empty( $order ) ) {
+			$order = 'DESC';
+		} else {
+			$order = $order;
+		}
 
 		// set the arguments
 		$args = array(
@@ -19,8 +33,8 @@ class SetupFloatMenuFunctions {
 			'post_status' 		=> 'publish',
 			'posts_per_page' 	=> $fm_max_entries,
 			'post__not_in' 		=> $not_in,
-			'orderby' 			=> 'date',
-    		'order'   			=> 'DESC',
+			'orderby' 			=> $orderby,
+    		'order'   			=> $order,
 		);
 
 		// set the taxonomy | add additional filters
