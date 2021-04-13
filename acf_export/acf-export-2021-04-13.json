@@ -1,0 +1,464 @@
+[
+    {
+        "key": "group_6068a48c95c86",
+        "title": "Float Menu",
+        "fields": [
+            {
+                "key": "field_6075a6ff747a5",
+                "label": "<strong>Use Menu Name<\/strong>",
+                "name": "fm_use_menu_name",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
+            },
+            {
+                "key": "field_6068a5b2b8d70",
+                "label": "<strong>Use Category<\/strong>",
+                "name": "fm_use_category",
+                "type": "taxonomy",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "taxonomy": "category",
+                "field_type": "multi_select",
+                "allow_null": 0,
+                "add_term": 1,
+                "save_terms": 0,
+                "load_terms": 0,
+                "return_format": "id",
+                "multiple": 0
+            },
+            {
+                "key": "field_6068a5ecb8d71",
+                "label": "<strong>Use Tag<\/strong>",
+                "name": "fm_use_tag",
+                "type": "taxonomy",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "taxonomy": "post_tag",
+                "field_type": "multi_select",
+                "allow_null": 0,
+                "add_term": 1,
+                "save_terms": 0,
+                "load_terms": 0,
+                "return_format": "id",
+                "multiple": 0
+            },
+            {
+                "key": "field_6068a4ea776a5",
+                "label": "<strong>Use Default<\/strong>",
+                "name": "fm_use_default",
+                "type": "button_group",
+                "instructions": "As an option, we can force WP_Query to get entries based on either all Categories or Tags, or display none. Note that both Use Category and Use Tag fields must be empty to trigger this option.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "category": "Category",
+                    "tag": "Tag",
+                    "both": "Both",
+                    "none": "None"
+                },
+                "allow_null": 0,
+                "default_value": "none",
+                "layout": "horizontal",
+                "return_format": "value"
+            },
+            {
+                "key": "field_606eacc39eda1",
+                "label": "<strong>Use Max Entries<\/strong>",
+                "name": "fm_use_max_entries",
+                "type": "number",
+                "instructions": "Max number of entries to be displayed.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": 8,
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "min": "",
+                "max": "",
+                "step": ""
+            },
+            {
+                "key": "field_60711e9e180d0",
+                "label": "<strong>Use Order Field<\/strong>",
+                "name": "fm_use_order_field",
+                "type": "select",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "ID": "Post ID",
+                    "author": "Author",
+                    "title": "Title",
+                    "name": "Name\/Slug",
+                    "type": "Post Type",
+                    "date": "Date Created",
+                    "modified": "Date Modified"
+                },
+                "default_value": "date",
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 0,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_60711ee6180d1",
+                "label": "<strong>Use Order By<\/strong>",
+                "name": "fm_use_order_by",
+                "type": "button_group",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "asc": "Ascending",
+                    "desc": "Descending"
+                },
+                "allow_null": 0,
+                "default_value": "desc",
+                "layout": "horizontal",
+                "return_format": "value"
+            },
+            {
+                "key": "field_6073dc218d40e",
+                "label": "<strong>Use Hook<\/strong>",
+                "name": "fm_use_hook",
+                "type": "select",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "genesis_before": "genesis_before",
+                    "genesis_before_header": "genesis_before_header",
+                    "genesis_header": "genesis_header",
+                    "genesis_site_title": "genesis_site_title",
+                    "genesis_header_right": "genesis_header_right",
+                    "genesis_site_description": "genesis_site_description",
+                    "genesis_after_header": "genesis_after_header",
+                    "genesis_before_content_sidebar_wrap": "genesis_before_content_sidebar_wrap",
+                    "genesis_before_content": "genesis_before_content",
+                    "genesis_before_loop": "genesis_before_loop",
+                    "genesis_before_sidebar_widget_area": "genesis_before_sidebar_widget_area",
+                    "genesis_after_sidebar_widget_area": "genesis_after_sidebar_widget_area",
+                    "genesis_loop": "genesis_loop",
+                    "genesis_before_entry": "genesis_before_entry",
+                    "genesis_entry_header": "genesis_entry_header",
+                    "genesis_entry_content": "genesis_entry_content",
+                    "genesis_entry_footer": "genesis_entry_footer",
+                    "genesis_after_entry": "genesis_after_entry",
+                    "genesis_after_endwhile": "genesis_after_endwhile",
+                    "genesis_after_loop": "genesis_after_loop",
+                    "genesis_after_content": "genesis_after_content",
+                    "genesis_after_content_sidebar_wrap": "genesis_after_content_sidebar_wrap",
+                    "genesis_before_footer": "genesis_before_footer",
+                    "genesis_footer": "genesis_footer",
+                    "genesis_after_footer": "genesis_after_footer",
+                    "genesis_after": "genesis_after"
+                },
+                "default_value": false,
+                "allow_null": 0,
+                "multiple": 0,
+                "ui": 0,
+                "return_format": "value",
+                "ajax": 0,
+                "placeholder": ""
+            },
+            {
+                "key": "field_6071fdae7ac0a",
+                "label": "<strong>Use More Menus<\/strong>",
+                "name": "fm_use_more_menus",
+                "type": "repeater",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "collapsed": "",
+                "min": 0,
+                "max": 0,
+                "layout": "block",
+                "button_label": "Add Menu",
+                "sub_fields": [
+                    {
+                        "key": "field_6075a721747a6",
+                        "label": "<strong>Reuse Menu Name<\/strong>",
+                        "name": "fm_reuse_menu_name",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "maxlength": ""
+                    },
+                    {
+                        "key": "field_6071fdd67ac0b",
+                        "label": "<strong>Reuse Category<\/strong>",
+                        "name": "fm_reuse_category",
+                        "type": "taxonomy",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "taxonomy": "category",
+                        "field_type": "multi_select",
+                        "allow_null": 0,
+                        "add_term": 1,
+                        "save_terms": 0,
+                        "load_terms": 0,
+                        "return_format": "id",
+                        "multiple": 0
+                    },
+                    {
+                        "key": "field_6073da38970cb",
+                        "label": "<strong>Reuse Tag<\/strong>",
+                        "name": "fm_reuse_tag",
+                        "type": "taxonomy",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "taxonomy": "post_tag",
+                        "field_type": "multi_select",
+                        "allow_null": 0,
+                        "add_term": 1,
+                        "save_terms": 0,
+                        "load_terms": 0,
+                        "return_format": "id",
+                        "multiple": 0
+                    },
+                    {
+                        "key": "field_6073dac4970cc",
+                        "label": "<strong>Reuse Default<\/strong>",
+                        "name": "fm_reuse_default",
+                        "type": "button_group",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "choices": {
+                            "category": "Category",
+                            "tag": "Tag",
+                            "both": "Both",
+                            "none": "None"
+                        },
+                        "allow_null": 0,
+                        "default_value": "none",
+                        "layout": "horizontal",
+                        "return_format": "value"
+                    },
+                    {
+                        "key": "field_6073db07970cd",
+                        "label": "<strong>Reuse Max Entries<\/strong>",
+                        "name": "fm_reuse_max_entries",
+                        "type": "number",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": 8,
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "min": "",
+                        "max": "",
+                        "step": ""
+                    },
+                    {
+                        "key": "field_6073db23970ce",
+                        "label": "<strong>Reuse Order Field<\/strong>",
+                        "name": "fm_reuse_order_field",
+                        "type": "select",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "choices": {
+                            "ID": "Post ID",
+                            "author": "Author",
+                            "title": "Title",
+                            "name": "Name\/Slug",
+                            "type": "Post Type",
+                            "date": "Date Created",
+                            "modified": "Date Modified"
+                        },
+                        "default_value": "date",
+                        "allow_null": 0,
+                        "multiple": 0,
+                        "ui": 0,
+                        "return_format": "value",
+                        "ajax": 0,
+                        "placeholder": ""
+                    },
+                    {
+                        "key": "field_6073db4d970cf",
+                        "label": "<strong>Reuse Order By<\/strong>",
+                        "name": "fm_reuse_order_by",
+                        "type": "button_group",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "choices": {
+                            "asc": "Ascending",
+                            "desc": "Descending"
+                        },
+                        "allow_null": 0,
+                        "default_value": "",
+                        "layout": "horizontal",
+                        "return_format": "value"
+                    },
+                    {
+                        "key": "field_60742b98007a7",
+                        "label": "<strong>Reuse Hook<\/strong>",
+                        "name": "fm_reuse_hook",
+                        "type": "select",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "choices": {
+                            "genesis_before": "genesis_before",
+                            "genesis_before_header": "genesis_before_header",
+                            "genesis_header": "genesis_header",
+                            "genesis_site_title": "genesis_site_title",
+                            "genesis_header_right": "genesis_header_right",
+                            "genesis_site_description": "genesis_site_description",
+                            "genesis_after_header": "genesis_after_header",
+                            "genesis_before_content_sidebar_wrap": "genesis_before_content_sidebar_wrap",
+                            "genesis_before_content": "genesis_before_content",
+                            "genesis_before_loop": "genesis_before_loop",
+                            "genesis_before_sidebar_widget_area": "genesis_before_sidebar_widget_area",
+                            "genesis_after_sidebar_widget_area": "genesis_after_sidebar_widget_area",
+                            "genesis_loop": "genesis_loop",
+                            "genesis_before_entry": "genesis_before_entry",
+                            "genesis_entry_header": "genesis_entry_header",
+                            "genesis_entry_content": "genesis_entry_content",
+                            "genesis_entry_footer": "genesis_entry_footer",
+                            "genesis_after_entry": "genesis_after_entry",
+                            "genesis_after_endwhile": "genesis_after_endwhile",
+                            "genesis_after_loop": "genesis_after_loop",
+                            "genesis_after_content": "genesis_after_content",
+                            "genesis_after_content_sidebar_wrap": "genesis_after_content_sidebar_wrap",
+                            "genesis_before_footer": "genesis_before_footer",
+                            "genesis_footer": "genesis_footer",
+                            "genesis_after_footer": "genesis_after_footer",
+                            "genesis_after": "genesis_after"
+                        },
+                        "default_value": false,
+                        "allow_null": 0,
+                        "multiple": 0,
+                        "ui": 0,
+                        "return_format": "value",
+                        "ajax": 0,
+                        "placeholder": ""
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "side",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "field",
+        "hide_on_screen": "",
+        "active": true,
+        "description": ""
+    }
+]
