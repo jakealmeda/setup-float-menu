@@ -128,12 +128,22 @@ class SetupFloatMenu {
 		// MENU NAME
 		$menu_name = get_post_meta( $post->ID, 'fm_use_menu_name', TRUE );
 		if( empty( $menu_name ) ) {
-			$menu_name = 'RELATED ENTRIES';
+			$menu_name = '';
+		}  else {
+			$menu_name = '<div class="item label">'.$menu_name.'</div>';
 		}
 
 		// HANDLE OUPTUT
     	if( !empty( $output ) ) {
-    		echo '<div class="mini-menu"><div class="text-base">'.$menu_name.'</div>'.$output.'</div>';
+
+    		// get selector wrap
+    		$wrapper = get_post_meta( $post->ID, 'fm_use_selector', TRUE );
+			if( empty( $wrapper ) ) {
+				echo '<div>'.$menu_name.$output.'</div>';
+			} else {
+				echo '<div class="'.$wrapper.'">'.$menu_name.$output.'</div>';
+			}
+
     	}
 
     	// RESET QUERY
@@ -174,6 +184,7 @@ class SetupFloatMenu {
 						'fm_reuse_max_entries'	=> get_sub_field( 'fm_reuse_max_entries' ),
 						'fm_reuse_order_field'	=> get_sub_field( 'fm_reuse_order_field' ),
 						'fm_reuse_order_by'		=> get_sub_field( 'fm_reuse_order_by' ),
+						'fm_reuse_selector'		=> get_sub_field( 'fm_reuse_selector' ),
 					);
 				
 				// display fields based on the hook	| pass the variable to the function
@@ -278,12 +289,22 @@ class SetupFloatMenu {
 
 		$menu_name = $args[ 'menu_name' ];
 		if( empty( $menu_name ) ) {
-			$menu_name = 'MORE LINKS';
+			$menu_name = '';
+		} else {
+			$menu_name = '<div class="item label">'.$menu_name.'</di>';
 		}
 
 		// HANDLE OUPTUT
     	if( !empty( $output ) ) {
-    		echo '<div class="mini-menu"><div class="text-base">'.$menu_name.'</div>'.$output.'</div>';
+
+    		// get selector wrap
+    		$wrapper = $args[ 'fm_reuse_selector' ];
+    		if( empty( $wrapper ) ) {
+    			echo '<div>'.$menu_name.$output.'</div>';
+    		} else {
+    			echo '<div class="'.$wrapper.'">'.$menu_name.$output.'</div>';
+    		}
+    		
     	}
 
     	// RESET QUERY

@@ -71,7 +71,7 @@
                 "label": "<strong>Use Default<\/strong>",
                 "name": "fm_use_default",
                 "type": "button_group",
-                "instructions": "As an option, we can force WP_Query to get entries based on either all Categories or Tags, or display none. Note that both Use Category and Use Tag fields must be empty to trigger this option.",
+                "instructions": "",
                 "required": 0,
                 "conditional_logic": 0,
                 "wrapper": {
@@ -211,6 +211,25 @@
                 "return_format": "value",
                 "ajax": 0,
                 "placeholder": ""
+            },
+            {
+                "key": "field_607fa357e105f",
+                "label": "Use Selector",
+                "name": "fm_use_selector",
+                "type": "text",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "placeholder": "",
+                "prepend": "",
+                "append": "",
+                "maxlength": ""
             },
             {
                 "key": "field_6071fdae7ac0a",
@@ -439,6 +458,25 @@
                         "return_format": "value",
                         "ajax": 0,
                         "placeholder": ""
+                    },
+                    {
+                        "key": "field_607fa36de1060",
+                        "label": "Reuse Selector",
+                        "name": "fm_reuse_selector",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "maxlength": ""
                     }
                 ]
             }
