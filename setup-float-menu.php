@@ -139,9 +139,9 @@ class SetupFloatMenu {
     		// get selector wrap
     		$wrapper = get_post_meta( $post->ID, 'fm_use_selector', TRUE );
 			if( empty( $wrapper ) ) {
-				echo '<div>'.$menu_name.$output.'</div>';
+				echo '<div class="module floatmenu">'.$menu_name.$output.'</div>';
 			} else {
-				echo '<div class="'.$wrapper.'">'.$menu_name.$output.'</div>';
+				echo '<div class="module floatmenu '.$wrapper.'">'.$menu_name.$output.'</div>';
 			}
 
     	}
@@ -300,9 +300,9 @@ class SetupFloatMenu {
     		// get selector wrap
     		$wrapper = $args[ 'fm_reuse_selector' ];
     		if( empty( $wrapper ) ) {
-    			echo '<div>'.$menu_name.$output.'</div>';
+    			echo '<div class="module floatmenu">'.$menu_name.$output.'</div>';
     		} else {
-    			echo '<div class="'.$wrapper.'">'.$menu_name.$output.'</div>';
+    			echo '<div class="module floatmenu '.$wrapper.'">'.$menu_name.$output.'</div>';
     		}
     		
     	}
