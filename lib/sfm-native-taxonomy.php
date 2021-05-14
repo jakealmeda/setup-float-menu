@@ -36,14 +36,17 @@ class SetupFloatMenu_NativeTaxonomy {
         
         // PROCESS THE ARRAY TO GET THE TAXONOMY (TERM) ID
 		if( count( $tax_id ) >= 1 ) {
+/*			?><h3><?php var_dump( $filter[ 'not_in' ] ); ?></h3><h3><?php var_dump( $filter[ 'pid' ] ) ?></h3><?php
+*/
+			$not_in = array_merge( $filter[ 'not_in' ], array( $filter[ 'pid' ] ) );
 
 			// PROCESS OUTPUT QUERY
 			$f = new SetupFloatMenuFunctions();
-			$output = $f->sfm_wp_query( $filter[ 'pid' ], $filter[ 'taxy' ], $tax_id, $filter[ 'max' ], array( $filter[ 'pid' ] ), $filter[ 'orderby' ], $filter[ 'order' ] );
+			$output = $f->sfm_wp_query( $filter[ 'pid' ], $filter[ 'taxy' ], $tax_id, $filter[ 'max' ], $not_in, $filter[ 'orderby' ], $filter[ 'order' ], $filter[ 'content_selector' ], $filter[ 'display_taxonomy_name' ] );
 
 			// RESET QUERY
-			$x = new SetupFloatMenu();
-			$x->setup_sfmenu_reset_query();
+			$x = new SetupFloatMenux();
+			$x->setup_sfmenux_reset_query();
 
 			// RETURN OUTPUT
 			return $output;

@@ -9,10 +9,12 @@
  * License: GPL2
  */
 
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
+$sf_menu = new SetupFloatMenuX();
 
 // include file
 include_once( 'lib/sfm-functions.php' );
@@ -22,293 +24,419 @@ include_once( 'lib/sfm-genesis-hooks-list.php' );
 include_once( 'lib/sfm-acf-autofill-select-fields.php' );
 
 
-$sf_menu = new SetupFloatMenu();
-class SetupFloatMenu {
+class SetupFloatMenuX {
+	/*
 
-    /**
-	 * Get all post/page entries link to current entry based on Taxonomy/identifier
-	 */
-    public function setup_sfmenu_get_entries() {
+	TO DO: use template for specific entries
 
-    	// exit if not post or page entry
-    	if( ! is_single() )
-    		return TRUE;
-
-    	global $post;
-    	$output = '';
-
-    	// set variable array
-    	$filter = array(
-    		'pid'				=> $post->ID,
-    		'max'				=> get_post_meta( $post->ID, 'use_max_entries', TRUE ),
-    		'orderby'			=> get_post_meta( $post->ID, 'fm_use_order_field', TRUE ),
-    		'order'				=> get_post_meta( $post->ID, 'fm_use_order_by', TRUE ),
-    	);
-
-
-    	$a = new SetupFloatMenu_CustomCategory();
-
-
-		// CUSTOM FIELD | CATEGORY
-		$fm_use_key_cat = get_post_meta( $post->ID, 'fm_use_category', TRUE );
-		// CUSTOM FIELD | TAG
-		$fm_use_key_tag = get_post_meta( $post->ID, 'fm_use_tag', TRUE );
-		if( !empty( $fm_use_key_cat ) && !empty( $fm_use_key_tag )  ) {
-
-			// CUSTOM FIELD - BOTH CATEGORY & TAG
-			/*$both_tax = array(
-				'category'	=> $fm_use_key_cat,
-				'tag'		=> $fm_use_key_tag,
-			);*/
-			$filter[ 'taxy' ] = 'both';
-			$filter[ 'tax_id' ] = array(
-				'category'	=> $fm_use_key_cat,
-				'tag'		=> $fm_use_key_tag,
-			);
-
-			$output .= $a->get_custom_category( $filter );
-
-		} else {
-
-			// CUSTOM FIELD - CATEGORY
-			if( !empty( $fm_use_key_cat ) && count( $fm_use_key_cat ) >= 1 ) {
-
-				$filter[ 'taxy' ] = 'category';
-				$filter[ 'tax_id' ] = $fm_use_key_cat;
-
-				$output .= $a->get_custom_category( $filter );
-
-			}
-
-			// CUSTOM FIELD - TAG
-			if( !empty( $fm_use_key_tag ) && count( $fm_use_key_tag ) >= 1 ) {
-
-				$filter[ 'taxy' ] = 'tag';
-				$filter[ 'tax_id' ] = $fm_use_key_tag;
-
-				$output .= $a->get_custom_category( $filter );
-
-			}
-
-		}
-
-		// DEFAULT
-		$fm_default = get_post_meta( $post->ID, 'fm_use_default', TRUE );
-		if( $fm_default == 'both' ) {
-
-			$filter[ 'taxy' ] = 'both';
-
-			$a = new SetupFloatMenu_NativeTaxonomy();
-			$output = $a->get_native_taxonomy( $filter );
-
-		} else {
-
-			// NATIVE WP CATEGORY | DEFAULT
-			if( empty( $output ) && $fm_default == 'category' ) {
-
-				$filter[ 'taxy' ] = 'category';
-
-				$a = new SetupFloatMenu_NativeTaxonomy();
-				$output = $a->get_native_taxonomy( $filter );
-
-			}
-
-			// NATIVE WP TAG | DEFAULT
-			if( empty( $output ) && $fm_default == 'tag' ) {
-
-				$filter[ 'taxy' ] = 'tag';
-				
-				$a = new SetupFloatMenu_NativeTaxonomy();
-				$output = $a->get_native_taxonomy( $filter );
-
-			}
-
-		}
-
-		// MENU NAME
-		$menu_name = get_post_meta( $post->ID, 'fm_use_menu_name', TRUE );
-		if( empty( $menu_name ) ) {
-			$menu_name = '';
-		}  else {
-			$menu_name = '<div class="item label">'.$menu_name.'</div>';
-		}
-
-		// HANDLE OUPTUT
-    	if( !empty( $output ) ) {
-
-    		// get selector wrap
-    		$wrapper = get_post_meta( $post->ID, 'fm_use_selector', TRUE );
-			if( empty( $wrapper ) ) {
-				echo '<div class="module floatmenu"><header></header>'.$menu_name.$output.'<footer></footer></div>';
-			} else {
-				echo '<div class="module floatmenu '.$wrapper.'"><header></header>'.$menu_name.$output.'<footer></footer></div>';
-			}
-
-    	}
-
-    	// RESET QUERY
-    	$this->setup_sfmenu_reset_query();
-
-    }
-
+	*/
 
 	/**
 	 * Loop through the hooks
 	 */
-	public function setup_sfmenu() {
+	public function setup_sfmenux() {
 
-		$filter_args = array();
+		// exit if not post or page entry
+//		if( ! is_single() )
+//			return TRUE;
 
+		$args = array();
+		
 		// PULL POST ID FROM THE URL
 		$post_id = url_to_postid( $_SERVER['REQUEST_URI'] , '_wpg_def_keyword', true ); 
 
-		// VALIDATE AND DISPLAY FIRST MENU
-		$init_menu = get_post_meta( $post_id, 'fm_use_hook', TRUE );
-		if( !empty( $init_menu ) ) {
-
-			add_action( $init_menu, array( $this, 'setup_sfmenu_get_entries' ) );
-
-		}
-
 		// loop through each repeater's row
-		if( have_rows( 'fm_use_more_menus', $post_id ) ):
+		if( have_rows( 'hook_menu', $post_id ) ):
+			
+			while( have_rows( 'hook_menu', $post_id ) ): the_row();
 
-		    while( have_rows( 'fm_use_more_menus', $post_id ) ): the_row();
-
-				$filter_args = array (
-						'pid'					=> $post_id,
-						'menu_name'				=> get_sub_field( 'fm_reuse_menu_name' ),
-						'category' 				=> get_sub_field( 'fm_reuse_category' ),
-						'tag'					=> get_sub_field( 'fm_reuse_tag' ),
-						'fm_reuse_default'		=> get_sub_field( 'fm_reuse_default' ),
-						'fm_reuse_max_entries'	=> get_sub_field( 'fm_reuse_max_entries' ),
-						'fm_reuse_order_field'	=> get_sub_field( 'fm_reuse_order_field' ),
-						'fm_reuse_order_by'		=> get_sub_field( 'fm_reuse_order_by' ),
-						'fm_reuse_selector'		=> get_sub_field( 'fm_reuse_selector' ),
+				$args = array (
+						'pid'						=> $post_id,
+						'content_wrap'				=> get_sub_field( 'content_wrap' ),
+						'content_header_wrap'		=> get_sub_field( 'content_header_wrap' ),
+						'content_selector'			=> get_sub_field( 'content_selector' ),
+						'content_footer_wrap'		=> get_sub_field( 'content_footer_wrap' ),
+						'menu_entries'				=> get_sub_field( 'menu_entries' ),
+						'view_template'				=> get_sub_field( 'view_template' ),
 					);
 				
 				// display fields based on the hook	| pass the variable to the function
-		        add_action( get_sub_field( 'fm_reuse_hook' ), function() use ( $filter_args ) {
+				add_action( get_sub_field( 'menu_hook' ), function() use ( $args ) {
 
-		        	$this->setup_sfmenu_process_repeater( $filter_args );
+					$this->setup_sfmenux_get_menus( $args );
 
-		        });
+				});
 
-		    endwhile;
-		 
+			endwhile;
+		
 		endif;
 
 	}
 
 
-    /**
-	 * Process repeater field contents
-	 * This functions SHOULD ALWAYS BE BELOW the function, setup_sfmenu
+	/**
+	 * Loop through the entry repeater
 	 */
-	public function setup_sfmenu_process_repeater( $args ) {
-		
-		$output = '';
+	public function setup_sfmenux_get_menus( $args ) {
 
-		$a = new SetupFloatMenu_CustomCategory();
+		// LOOP THROUGH THE ENTRIES
+		if( is_array( $args[ 'menu_entries' ] ) ) :
 
-    	// set variable array
-    	$filter = array(
-    		'pid'				=> $args[ 'pid' ],
-    		'max'				=> $args[ 'fm_reuse_max_entries' ],
-    		'orderby'			=> $args[ 'fm_reuse_order_field' ],
-    		'order'				=> $args[ 'fm_reuse_order_by' ],
-    	);
 
-    	// Custom Field Taxonomy
-    	if( !empty( $args[ 'category' ] ) && !empty( $args[ 'tag' ] )  ) {
-
-			$filter[ 'taxy' ] = 'both';
-			$filter[ 'tax_id' ] = array(
-				'category'	=> $args[ 'category' ],
-				'tag'		=> $args[ 'tag' ],
+			// SET VARIABLE ARRAY
+			$filter = array(
+				'pid'				=> $args[ 'pid' ],
+				'content_selector'	=> $args[ 'content_selector' ],
 			);
 
-			$output .= $a->get_custom_category( $filter );
 
-    	} else {
+			// INITIALIZE
+			$custom_tax = new SetupFloatMenu_CustomCategory();
+			$native_tax = new SetupFloatMenu_NativeTaxonomy();
+			$tag_body = '';
+			//$menu_main = '';
+			//$menu_specs = '';
 
-			// CUSTOM FIELD - CATEGORY
-			if( !empty( $args[ 'category' ] ) && count( $args[ 'category' ] ) >= 1 ) {
+			// LOOP THROUGH CHILD REPEATER
+			foreach( $args[ 'menu_entries' ] as $v ) {
 
-				$filter[ 'taxy' ] = 'category';
-				$filter[ 'tax_id' ] = $args[ 'category' ];
+				$output = ''; // Set an empty variable to avoid undefined variable error
 
-				$output .= $a->get_custom_category( $filter );
-				//var_dump($args);
-			}
+				// Set variables
+				$filter[ 'max' ] = $v[ 'max_entries' ];
+				$filter[ 'orderby' ] = $v[ 'order_by' ];
+				$filter[ 'order' ] = $v[ 'order' ];
+				if( empty( $v[ 'display_taxonomy_name' ] ) ) :
+					$filter[ 'display_taxonomy_name' ] = 'show'; 				// SET DEFAULT VALUE
+				else:
+					$filter[ 'display_taxonomy_name' ] = $v[ 'display_taxonomy_name' ];
+				endif;
 
-			// CUSTOM FIELD - TAG
-			if( !empty( $args[ 'tag' ] ) && count( $args[ 'tag' ] ) >= 1 ) {
-
-				$filter[ 'taxy' ] = 'tag';
-				$filter[ 'tax_id' ] = $args[ 'tag' ];
-
-				$output .= $a->get_custom_category( $filter );
-				//var_dump($args);
-			}
-
-		}
-
-		// DEFAULT
-		$fm_default = $args[ 'fm_reuse_default' ];
-		if( $fm_default == 'both' ) {
-
-			$filter[ 'taxy' ] = 'both';
-
-			$a = new SetupFloatMenu_NativeTaxonomy();
-			$output = $a->get_native_taxonomy( $filter );
-
-		} else {
-
-			// NATIVE WP CATEGORY | DEFAULT
-			if( empty( $output ) && $fm_default == 'category' ) {
-
-				$filter[ 'taxy' ] = 'category';
-
-				$a = new SetupFloatMenu_NativeTaxonomy();
-				$output = $a->get_native_taxonomy( $filter );
-
-			}
-
-			// NATIVE WP TAG | DEFAULT
-			if( empty( $output ) && $fm_default == 'tag' ) {
-
-				$filter[ 'taxy' ] = 'tag';
+				// TAB | TAXONOMY
+				// --------------------------------
 				
-				$a = new SetupFloatMenu_NativeTaxonomy();
-				$output = $a->get_native_taxonomy( $filter );
+				// Display | Show entries or taxonomies
+				if( $v[ 'display' ] == 'taxy' ) {
 
+					/* **************
+					 * TAXONOMY
+					 * *********** */
+
+					if( !empty( $v[ 'entry-category' ] ) || !empty( $v[ 'entry-tag' ] ) ) :
+
+						// CATEGORY (ACF CUSTOM FIELD)
+						if( !empty( $v[ 'entry-category' ] ) ) :
+
+							$output .= $this->setup_sfmenux_handle_output( $v[ 'entry-category' ], $filter[ 'display_taxonomy_name' ], 'category', $args[ 'content_selector' ] );
+						
+						endif;
+
+						// POST TAG (ACF CUSTOM FIELD)
+						if( !empty( $v[ 'entry-tag' ] ) ) :
+							
+							$output .= $this->setup_sfmenux_handle_output( $v[ 'entry-tag' ], $filter[ 'display_taxonomy_name' ], 'tag', $args[ 'content_selector' ] );
+						
+						endif;
+
+		    		else :
+
+						$terms_ptag = get_the_terms( $args[ 'pid' ], 'post_tag' );
+						$terms_categ = get_the_terms( $args[ 'pid' ], 'category' );
+		    			
+						if( $v[ 'default' ] == 'both' ) {
+
+							foreach( array( 'category' => $terms_categ, 'tag' => $terms_ptag ) as $ke => $va ) {
+
+								$output .= $this->setup_sfmenux_handle_output( $va, $filter[ 'display_taxonomy_name' ], $ke, $args[ 'content_selector' ] );
+
+							}
+
+						}
+
+						if( $v[ 'default' ] == 'category' ) {
+
+							// CATEGORY
+							$output .= $this->setup_sfmenux_handle_output( $terms_categ, $filter[ 'display_taxonomy_name' ], $v[ 'default' ], $args[ 'content_selector' ] );
+
+						}
+
+						if( $v[ 'default' ] == 'tag' ) {
+
+							// POST TAG
+							$output .= $this->setup_sfmenux_handle_output( $terms_ptag, $filter[ 'display_taxonomy_name' ], $v[ 'default' ], $args[ 'content_selector' ] );
+
+						}
+						
+					endif;
+
+				} else {
+
+					/* **************
+					 * ENTRIES
+					 * *********** */
+
+					if( is_array( $v[ 'entries' ] ) ) {
+						$filter[ 'not_in' ] = $v[ 'entries' ];
+					} else {
+						$filter[ 'not_in' ] = array( $v[ 'entries' ] );
+					}
+					
+
+					// ACF CUSTOM FIELDS
+					if( !empty( $v[ 'entry-category' ] ) && !empty( $v[ 'entry-tag' ] ) ) {
+
+						// CUSTOM FIELD - BOTH CATEGORY & TAG
+						$filter[ 'taxy' ] = 'both';
+						$filter[ 'tax_id' ] = array(
+							'category'	=> $v[ 'entry-category' ],
+							'tag'		=> $v[ 'entry-tag' ],
+						);
+
+						$output .= $custom_tax->get_custom_category( $filter );
+
+					} else { // Individual
+
+						// Category
+						if( !empty( $v[ 'entry-category' ] ) ) {
+
+							$filter[ 'taxy' ] = 'category';
+							$filter[ 'tax_id' ] = $v[ 'entry-category' ];
+							
+							$output .= $custom_tax->get_custom_category( $filter );
+							
+						}
+
+						// Post Tag
+						if( !empty( $v[ 'entry-tag' ] ) ) {
+
+							$filter[ 'taxy' ] = 'tag';
+							$filter[ 'tax_id' ] = $v[ 'entry-tag' ];
+							
+							$output .= $custom_tax->get_custom_category( $filter );
+							
+						}
+
+					}
+
+
+					// DEFAULT TAXONOMIES
+					if( empty( $output ) && $v[ 'default' ] == 'both' ) {
+
+						$filter[ 'taxy' ] = 'both';
+
+						$output = $native_tax->get_native_taxonomy( $filter );
+
+					} else {
+
+						// NATIVE WP CATEGORY | DEFAULT
+						if( empty( $output ) && $v[ 'default' ] == 'category' ) {
+
+							$filter[ 'taxy' ] = 'category';
+
+							$output = $native_tax->get_native_taxonomy( $filter );
+
+						}
+
+						// NATIVE WP TAG | DEFAULT
+						if( empty( $output ) && $v[ 'default' ] == 'tag' ) {
+
+							$filter[ 'taxy' ] = 'tag';
+
+							$output = $native_tax->get_native_taxonomy( $filter );
+
+						}
+
+					}
+
+				} // if( $v[ 'display' ] == 'taxy' ) {
+				
+
+				// HEADER WRAP CSS SELECTOR
+				if( empty( $args[ 'content_header_wrap' ] ) ) {
+					$head_wrap = '';
+				} else {
+					$head_wrap = ' '.$args[ 'content_header_wrap' ].'>';
+				}
+
+
+				// HANDLE OUPTUT
+				if( !empty( $output ) ) {
+
+					// MENU LABEL (NAME)
+					if( empty( $v[ 'label_menu' ] ) ) {
+						$out_label_menu = ''; // Set an empty variable to avoid undefined variable error					
+					} else {
+						$out_label_menu = '<header><div class="item label'.$head_wrap.'">'.$v[ 'label_menu' ].'</div></header>';
+					}
+
+					$menu_main = $out_label_menu.$output;
+
+				} else {
+
+					$menu_main = '';
+
+				}
+
+
+				// TAB | SPECIFIC ENTRIES
+				// --------------------------------
+				if( !empty( $v[ 'entries' ] ) ) {
+					// GET ENTRIES
+					$menu_specs = $this->setup_sfmenux_related( $v[ 'entries' ], $v[ 'display_post_type' ], $head_wrap, $v[ 'label_entry' ], $args[ 'content_selector' ] );
+				} else {
+					$menu_specs = '';
+				}
+
+
+				// WHERE TO SHOW
+				if( $v[ 'hierarchy' ] == 'before' ) {
+					$tag_body .= $menu_specs.$menu_main;
+				} else {
+					// AFTER
+					$tag_body .= $menu_main.$menu_specs;
+				}
+
+
+				// RESET QUERY
+				$this->setup_sfmenux_reset_query();
+
+			} // foreach( $args[ 'menu_entries' ] as $v ) {
+
+		endif; // if( is_array( $args[ 'menu_entries' ] ) ) :
+
+
+		// OUTPUT TAG | OPENING
+		if( empty( $args[ 'content_wrap' ] ) ) {
+			$tag_open = '<div class="module">'; // removed the class, floatmenu
+		} else {
+			$tag_open = '<div class="module '.$args[ 'content_wrap' ].'">';
+		}
+
+
+		// OUTPUT TAG | CLOSING
+		$tag_close = '<footer></footer></div>';
+
+		// SHOW IT
+		echo $tag_open.$tag_body.$tag_close;
+
+		// ############################
+/*		if( !empty( $menu_main ) || !empty( $menu_specs ) ) :
+			
+			$replace_array = array(
+				'{@content_wrap_open}'				=> '<div class="module'.$args[ 'content_wrap' ].'">',
+				'{@content_wrap_close}'				=> '</div>',
+				'{@menu_tax}' 						=> $menu_main,
+				'{@menu_specs}'						=> $menu_specs,
+			);
+		else:
+			$replace_array = array(
+				'{@content_wrap_open}'				=> NULL,
+				'{@content_wrap_close}'				=> NULL,
+				'{@menu_tax}' 						=> NULL,
+				'{@menu_specs}'						=> NULL,
+			);
+		endif;
+
+		$q = new SetupFloatMenuFunctions();
+		echo strtr( $q->sfm_view_templates_contents( $args[ 'view_template' ] ), $replace_array );*/
+		// ############################
+
+	}
+
+
+	/**
+	 * Reset Query
+	 */
+	public function setup_sfmenux_reset_query() {
+		wp_reset_postdata();
+		wp_reset_query();
+	}
+
+
+	/**
+	 * RELATED ENTRIES
+	 */
+	public function setup_sfmenux_related( $entries, $post_typed, $head_wrap, $entries_label, $css_selector ) {
+
+		$outs = '';
+
+		foreach( $entries as $e ) {
+
+			$p_entry = get_post( $e );
+
+			// label
+			if( $post_typed == 'hide' ) {
+				$pt = '';
+			} else {
+				$pt = ' <span class="item label-entry fontsize-tiny">('.ucfirst( $p_entry->post_type ).')</span>';
+			}
+
+			// selector
+			if( empty( $css_selector ) ) {
+				$selectors = '';
+			} else {
+				$selectors = ' class="'.$css_selector.'"';
+			}
+			
+			$outs .= '<div'.$selectors.'><a href="'.get_the_permalink( $e ).'">'.$p_entry->post_title.'</a>'.$pt.'</div>';
+		}
+
+
+		if( !empty( $outs ) ):
+
+			if( empty( $entries_label ) ) {
+				return $outs;
+			} else {
+				return '<header><div class="item label'.$head_wrap.'">'.$entries_label.'</div></header>'.$outs;
+			}
+
+		endif;
+
+	}
+
+
+	/**
+	 * Handle Output
+	 */
+	public function setup_sfmenux_handle_output( $taxonomies, $trigger, $black_label, $content_selector ) {
+
+		$out = '';
+		
+		foreach( $taxonomies as $key => $value ) {
+
+			// validate label
+			if( $trigger != 'show' ) {
+				$ks = '';
+			} else {
+				$ks = ' <span class="item label-entry fontsize-tiny">('.ucfirst( $black_label ).')</span>';
+			}
+
+			// validate css selector
+			if( empty( $content_selector ) ) {
+				$selector = '';
+			} else {
+				$selector = ' class="'.$content_selector.'"';
+			}
+
+			if( is_object( $value ) ) {
+				$out .= '<div '.$selector.'><a href="'.get_term_link( $value->term_taxonomy_id ).'">'.$value->name.'</a>'.$ks.'</div>';
+			} else {
+				$out .= '<div '.$selector.'><a href="'.get_term_link( get_term( $value )->term_taxonomy_id ).'">'.get_term( $value )->name.'</a>'.$ks.'</div>';
 			}
 
 		}
 
-		$menu_name = $args[ 'menu_name' ];
-		if( empty( $menu_name ) ) {
-			$menu_name = '';
-		} else {
-			$menu_name = '<div class="item label">'.$menu_name.'</di>';
-		}
+		return $out;
 
-		// HANDLE OUPTUT
-    	if( !empty( $output ) ) {
+	}
 
-    		// get selector wrap
-    		$wrapper = $args[ 'fm_reuse_selector' ];
-    		if( empty( $wrapper ) ) {
-    			echo '<div class="module floatmenu"><header></header>'.$menu_name.$output.'<footer></footer></div>';
-    		} else {
-    			echo '<div class="module floatmenu '.$wrapper.'"><header></header>'.$menu_name.$output.'<footer></footer></div>';
-    		}
-    		
-    	}
 
-    	// RESET QUERY
-    	$this->setup_sfmenu_reset_query();
+	/**
+	 * This plug-in's directory
+	 */
+	public function setup_sfm_dir_path() {
+
+		return plugin_dir_path( __FILE__ );
 
 	}
 
@@ -316,7 +444,7 @@ class SetupFloatMenu {
 	/**
 	 * Enqueue Style
 	 */
-	public function setup_sfmenu_enqueue_scripts() {
+	public function setup_sfmenux_enqueue_scripts() {
 
 		// 'jquery-effects-core', 'jquery-effects-fade', 'jquery-ui-accordion'
 		/*$scripts = array( 'jquery-ui-core', 'jquery-effects-slide' );
@@ -334,31 +462,20 @@ class SetupFloatMenu {
 
 	}
 
-
+	
 	/**
-	 * Reset Query
+	 * Handle the display
 	 */
-	public function setup_sfmenu_reset_query() {
-		wp_reset_postdata();
-		wp_reset_query();
-	}
-
-
-    /**
-     * Handle the display
-     */
 	public function __construct() {
 
 		// Enqueue scripts
 		if ( !is_admin() ) {
 
-		    add_action( 'wp_enqueue_scripts', array( $this, 'setup_sfmenu_enqueue_scripts' ), 20 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'setup_sfmenux_enqueue_scripts' ), 20 );
 
-		    add_action( 'init', array( $this, 'setup_sfmenu' ) );
+			add_action( 'init', array( $this, 'setup_sfmenux' ) );
 
 		}
-
-		//add_action( 'genesis_before_content_sidebar_wrap', array( $this, 'setup_sfmenu_get_entries' ) );
 
 	}
 
