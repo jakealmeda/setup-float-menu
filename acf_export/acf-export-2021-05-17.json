@@ -126,7 +126,7 @@
                             "id": ""
                         },
                         "default_value": "",
-                        "placeholder": "CSS Selector\/s separated by comma (,)",
+                        "placeholder": "CSS Selector\/s separated by spaces",
                         "prepend": "",
                         "append": "",
                         "maxlength": ""
@@ -145,7 +145,7 @@
                             "id": ""
                         },
                         "default_value": "",
-                        "placeholder": "CSS Selector\/s separated by comma (,)",
+                        "placeholder": "CSS Selector\/s separated by spaces",
                         "prepend": "",
                         "append": "",
                         "maxlength": ""
@@ -164,7 +164,7 @@
                             "id": ""
                         },
                         "default_value": "",
-                        "placeholder": "CSS Selector\/s separated by comma (,)",
+                        "placeholder": "CSS Selector\/s separated by spaces",
                         "prepend": "",
                         "append": "",
                         "maxlength": ""
@@ -183,7 +183,7 @@
                             "id": ""
                         },
                         "default_value": "",
-                        "placeholder": "CSS Selector\/s separated by comma (,)",
+                        "placeholder": "CSS Selector\/s separated by spaces",
                         "prepend": "",
                         "append": "",
                         "maxlength": ""
