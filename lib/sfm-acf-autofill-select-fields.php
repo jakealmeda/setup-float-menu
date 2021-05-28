@@ -38,7 +38,7 @@ class SetupFloatMenu_FillACFSelectFields {
 	 * Auto fill Select options for Views
 	 *
 	 */
-	public function acf_sfm_view_choices( $field ) {
+	/*public function acf_sfm_view_choices( $field ) {
 	    
 	    $z = new SetupFloatMenuX();
 
@@ -80,34 +80,20 @@ class SetupFloatMenu_FillACFSelectFields {
 
         }
 
-        /*foreach ($ss_plug_dir as $value) {
-            
-            // combine directory and filename
-            $file = basename( $directory.$value, $file_extn );
-            
-            // filter files to include
-            if( $file ) {
-                $out[ $value ] = $file;
-            }
-
-        }*/
-
         // Return an array of files (without the directory)
         return $out;
 
-    }
+    }*/
 
 
 	// CONSTRUCT
 	public function __construct() {
 
 		// AUTO FILL SELECT FOR HOOKS (ACF)
-		//add_filter( 'acf/load_field/name=fm_use_hook', array( $this, 'sfm_autofill_select_hooks' ) );
-		//add_filter( 'acf/load_field/name=fm_reuse_hook', array( $this, 'sfm_autofill_select_hooks' ) );
 		add_filter( 'acf/load_field/name=menu_hook', array( $this, 'sfm_autofill_select_hooks' ) );
 
-
-		add_filter( 'acf/load_field/name=view_template', array( $this, 'acf_sfm_view_choices' ) );
+		// AUTO FILL SELECT FOR TEMPLATES
+		//add_filter( 'acf/load_field/name=view_template', array( $this, 'acf_sfm_view_choices' ) );
 
 	}
 	

@@ -57,7 +57,7 @@ class SetupFloatMenuX {
 						'content_selector'			=> get_sub_field( 'content_selector' ),
 						'content_footer_wrap'		=> get_sub_field( 'content_footer_wrap' ),
 						'menu_entries'				=> get_sub_field( 'menu_entries' ),
-						'view_template'				=> get_sub_field( 'view_template' ),
+						//'view_template'				=> get_sub_field( 'view_template' ),
 					);
 				
 				// display fields based on the hook	| pass the variable to the function

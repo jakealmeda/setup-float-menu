@@ -1,14 +1,14 @@
 [
     {
         "key": "group_608992262145a",
-        "title": "Hook Menu",
+        "title": "Float Menu",
         "fields": [
             {
                 "key": "field_6089924546a9c",
                 "label": "Menu",
                 "name": "hook_menu",
                 "type": "repeater",
-                "instructions": "Viva La Cucaracha!",
+                "instructions": "",
                 "required": 0,
                 "conditional_logic": 0,
                 "wrapper": {
@@ -47,7 +47,7 @@
                         "required": 0,
                         "conditional_logic": 0,
                         "wrapper": {
-                            "width": "50",
+                            "width": "100",
                             "class": "",
                             "id": ""
                         },
@@ -78,31 +78,6 @@
                             "genesis_footer": "genesis_footer",
                             "genesis_after_footer": "genesis_after_footer",
                             "genesis_after": "genesis_after"
-                        },
-                        "default_value": false,
-                        "allow_null": 0,
-                        "multiple": 0,
-                        "ui": 0,
-                        "return_format": "value",
-                        "ajax": 0,
-                        "placeholder": ""
-                    },
-                    {
-                        "key": "field_609366e0d7ea7",
-                        "label": "View Template",
-                        "name": "view_template",
-                        "type": "select",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "50",
-                            "class": "",
-                            "id": ""
-                        },
-                        "choices": {
-                            "custom_template.html": "custom_template",
-                            "default.html": "default"
                         },
                         "default_value": false,
                         "allow_null": 0,
